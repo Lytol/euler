@@ -1,3 +1,5 @@
+import System.Environment
+
 primeFactors :: Integer -> [Integer]
 primeFactors n = do
              let x = nextFactor n
@@ -9,9 +11,11 @@ nextFactor :: Integer -> Integer
 nextFactor 1 = 1
 nextFactor 2 = 2
 nextFactor n = do
-                 let nf = take 1 [ x | x <- [2..(div n 2)], n `mod` x == 0 ]
+                 let nf = take 1 [ x | x <- 2 : [3,5..(floor (sqrt (fromIntegral n)))], n `mod` x == 0 ]
                  if null nf
                    then n
                    else head nf
               
-main = print (primeFactors 600851475143)
+main = do
+         args <- getArgs
+         print (primeFactors (read (head args) :: Integer))
